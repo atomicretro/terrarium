@@ -2,24 +2,48 @@
   "name": "terrarium",
   "version": "1.0.0",
   "description": "A cool thing made by some cool bros",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-tsc": "tsc",
+    "start": "npm-run-all --parallel watch-tsc start-server",
+    "start-server": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-tsc": "tsc -w"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/atomicretro/terrarium.git"
   },
-  "author": "Alec, Anthony, JP",
+  "author": "Some Cool Bros",
+  "contributors": [
+    {
+      "name": "Alec Cuccia",
+      "email": "ajcuccia@gmail.com"
+    },
+    {
+      "name": "Anthony Lui",
+      "email": "anthony.r.lui@gmail.com"
+    },
+    {
+      "name": "John Paul Kim",
+      "email": "jpkimtheperson@gmail.com"
+    }
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/atomicretro/terrarium/issues"
   },
   "homepage": "https://github.com/atomicretro/terrarium#readme",
   "dependencies": {
+    "koa": "^2.13.0",
+    "koa-static": "^5.0.0",
     "pixi.js": "^5.3.3"
   },
   "devDependencies": {
+    "@types/koa": "^2.11.4",
+    "@types/koa-static": "^4.0.1",
+    "npm-run-all": "^4.1.5",
     "typescript": "^4.0.2"
   }
 }
