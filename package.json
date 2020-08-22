@@ -1,0 +1,25 @@
+{
+  "name": "terrarium",
+  "version": "1.0.0",
+  "description": "A cool thing made by some cool bros",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atomicretro/terrarium.git"
+  },
+  "author": "Alec, Anthony, JP",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atomicretro/terrarium/issues"
+  },
+  "homepage": "https://github.com/atomicretro/terrarium#readme",
+  "dependencies": {
+    "pixi.js": "^5.3.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  }
+}
