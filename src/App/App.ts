@@ -1,13 +1,5 @@
-class App {
-  private world: string;
-
-  constructor(world: string) {
-    this.world = world;
-  }
-
-  print(): void {
-    console.log(this.world);
-  }
+const App = () => {
+  console.log('HI ALEC');
 }
 
 export default App;
