@@ -1,5 +1,12 @@
-import test1 from './test1';
+import * as _ from 'lodash';
 
-console.log('inside test1');
+function component() {
+  const element = document.createElement('div');
 
-test1();
+  // Lodash, now imported by this script
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+
+  return element;
+}
+
+document.body.appendChild(component());
