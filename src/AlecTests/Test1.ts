@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import Pants from '../assets/pants.jpg';
 
 // The application will create a renderer using WebGL, if possible,
 // with a fallback to a canvas render. It will also setup the ticker
@@ -10,9 +11,9 @@ const app = new PIXI.Application();
 document.body.appendChild(app.view);
 
 // load the texture we need
-app.loader.add('pants', 'pants.jpg').load((loader: any, resources: any) => {
+app.loader.add('pants', Pants).load((loader: any, resources: any) => {
   // This creates a texture from a 'bunny.png' image
-  const bunny = new PIXI.Sprite(resources.bunny.texture);
+  const bunny = new PIXI.Sprite(resources.pants.texture);
 
   // Setup the position of the bunny
   bunny.x = app.renderer.width / 2;
