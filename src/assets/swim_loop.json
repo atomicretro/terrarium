@@ -1,0 +1,15 @@
+{
+"frames": {
+	"swim_loop.png": {
+		"frame": {"x":0, "y":0, "w":143, "h":21},
+		"spriteSourceSize": {"x":9,"y":5,"w":160,"h":32},
+		"sourceSize": {"w":160,"h":32}
+	}
+
+},
+"meta": {
+	"image": "sprites.png",
+	"size": {"w": 144, "h": 22},
+	"scale": "1"
+}
+}

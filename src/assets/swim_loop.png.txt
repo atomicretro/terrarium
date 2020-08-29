@@ -1,0 +1,1 @@
+swim_loop_01.png.png 10 5, swim_loop_02.png.png 41 5, swim_loop_03.png.png 73 5, swim_loop_04.png.png 104 5, swim_loop_05.png.png 138 5.
