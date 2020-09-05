@@ -3,6 +3,13 @@ import Pants from '../assets/pants.jpg';
 import SwimLoop from '../assets/swim_loop.png';
 import SwimLoopJson from '../assets/swim_loop.json';
 
+import MouthGuy from '../creatures/MouthGuy';
+
+import { getRandomInt } from '../utils/mathFunctions';
+
+let monster = new MouthGuy('worldzzz');
+console.log(monster.greet())
+
 //Aliases
 const { Application, Loader, Rectangle, Sprite, TilingSprite } = PIXI;
 const { TextureCache } = PIXI.utils;
@@ -12,6 +19,7 @@ const app = new Application({
   backgroundColor: 0x095fe2,
 });
 const sprites: any = {};
+let creature: any;
 
 // Append pixi canvas to DOM
 document.body.appendChild(app.view);
@@ -51,16 +59,66 @@ loader.onComplete.add((loader, resources) => {
   //Tell the texture to use that rectangular section
   texture.frame = new Rectangle(0, 0, 32, 32);
   //Create the sprite from the texture
-  let creature = new Sprite(texture);
-  creature.x = 32;
-  creature.y = 32;
-  app.stage.addChild(creature);
-  let creature2 = new Sprite(texture);
+  monster.sprite = new Sprite(texture);
+  // creature = new Sprite(texture);
+  // creature.x = 200;
+  // creature.y = 200;
+  // creature.vx = 0; // horizontal velocity
+  // creature.vy = 0; // vertical velocity
+
+  app.stage.addChild(monster.sprite);
+  // app.stage.addChild(creature);
+  app.ticker.add(() => gameLoop());
+
+  // let creature2 = new Sprite(texture);
   //Position the creature sprite on the canvas
   //Add the creature to the stage
   //Render the stage
   app.renderer.render(app.stage);
 });
+
+function gameLoop() {
+
+  //Update the cat's velocity
+
+  // creature.vx = 1;
+  // creature.vy = 1;
+
+  monster.move(); // ALEC ALEC ALEC LOOK HERE: I THINK THIS DOESN'T WORK
+                  // BECAUSE YOU ARE ADDING monster.sprite TO THE APP ON LINE 69
+                  // INSTEAD OF monster -- PERHAPS YOU NEED TO HAVE THE CREATURE EXTEND NOT ONLY
+                  // A BASE CLASS BUT ALSO A SPRITE CLASS FROM pixi??????
+
+  // const changeThreshold = 0.9;
+  // const changeChance = Math.random();
+  //
+  // if (changeChance > changeThreshold) {
+  //   const compass = getRandomInt(4);
+  //   switch (compass) {
+  //     case 0:
+  //     creature.vx = 1;
+  //     creature.vy = 1;
+  //     break;
+  //     case 1:
+  //     creature.vx = -1;
+  //     creature.vy = -1;
+  //     break;
+  //     case 2:
+  //     creature.vx = 1;
+  //     creature.vy = -1;
+  //     break;
+  //     case 3:
+  //     creature.vx = -1;
+  //     creature.vy = 1;
+  //     break;
+  //     default:
+  //     break;
+  //   }
+  // }
+  //
+  // creature.x += creature.vx;
+  // creature.y += creature.vy;
+}
 
 // // load the texture we need
 // app.loader.add('loop', SwimLoop).load((loader: any, resources: any) => {
@@ -88,9 +146,18 @@ loader.onComplete.add((loader, resources) => {
 // app.loader.add('sheet', SwimLoop)
 // let spritesheet = new PIXI.Spritesheet(app.sheet, SwimLoopJson);
 
-const aa = () => {
+const aa = async () => {
   // console.log('aa')
   // document.body.appendChild(pixi.view);
+  // for (let idx = 0; idx < 100000000; idx++) {
+  //   monster.move();
+  //   console.log(monster.xPos, monster.yPos)
+  //   await sleep(1000);
+  // }
+}
+
+function sleep(ms:number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export default aa;
