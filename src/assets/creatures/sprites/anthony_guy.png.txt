@@ -1,0 +1,1 @@
+anthony_guy_01.png.png 6 4, anthony_guy_02.png.png 37 3, anthony_guy_03.png.png 68 2, anthony_guy_04.png.png 99 2, anthony_guy_05.png.png 132 3, anthony_guy_06.png.png 168 6, anthony_guy_07.png.png 198 7, anthony_guy_08.png.png 229 5.
