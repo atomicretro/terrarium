@@ -1,79 +1,84 @@
-{ "frames": [
-   {
-    "filename": "ALUI_00.png",
+{ "frames": {
+    "genghis_hawk_01.png" : {
     "frame": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
-   },
-   {
-    "filename": "ALUI_01.png",
+    },
+    "genghis_hawk_02.png" : {
     "frame": { "x": 32, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
-   },
-   {
-    "filename": "ALUI_02.png",
+    },
+    "genghis_hawk_03.png" : {
     "frame": { "x": 64, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
-   },
-   {
-    "filename": "ALUI_03.png",
+    },
+    "genghis_hawk_04.png" : {
     "frame": { "x": 96, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
-   },
-   {
-    "filename": "ALUI_04.png",
+    },
+    "genghis_hawk_05.png" : {
     "frame": { "x": 128, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
-   },
-   {
-    "filename": "ALUI_05.png",
+    },
+    "genghis_hawk_06.png" : {
     "frame": { "x": 160, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
-   },
-   {
-    "filename": "ALUI_06.png",
+    },
+    "genghis_hawk_07.png" : {
     "frame": { "x": 192, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
-   },
-   {
-    "filename": "ALUI_07.png",
+    },
+    "genghis_hawk_08.png" : {
     "frame": { "x": 224, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
-   }
- ],
+    }
+  },
+ "animations": {
+  "creature": [
+    "genghis_hawk_01.png",
+    "genghis_hawk_02.png",
+    "genghis_hawk_03.png",
+    "genghis_hawk_04.png",
+    "genghis_hawk_05.png",
+    "genghis_hawk_06.png",
+    "genghis_hawk_07.png",
+    "genghis_hawk_08.png"
+  ]
+ },
  "meta": {
   "app": "http://www.aseprite.org/",
+  "image": "genghis_hawk.png",
   "version": "1.2.21",
   "format": "RGBA8888",
   "size": { "w": 256, "h": 32 },
