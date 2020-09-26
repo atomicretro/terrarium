@@ -9,15 +9,19 @@ const App = () => {
     height: window.innerHeight,
   });
 
+  // Load sprite and JSON files into app
   PIXI.Loader.shared
     .add('genghis_hawk', '../assets/creatures/genghis_hawk/genghis_hawk.json')
-    .add('mouth_guy', '../assets/creatures/mouth_guy/mouth_guy.json')
-    .load((loader: PIXI.Loader, resources: Partial<Record<string, PIXI.LoaderResource>>) => {
-      console.log('loader', loader);
-      console.log('resources', resources);
-      new GenghisHawk(PixiApp, resources);
-      new MouthGuy(PixiApp, resources);
-    });
+    .add('mouth_guy', '../assets/creatures/mouth_guy/mouth_guy.json');
+  // Function that runs on load / error of each individual resource
+  PIXI.Loader.shared.onProgress.add((loader: PIXI.Loader, resource: Partial<Record<string, PIXI.LoaderResource>>) => {
+    console.log(`Loading ${resource.name}`);
+  });
+  // After all resources are loaded, create creatures
+  PIXI.Loader.shared.load((loader: PIXI.Loader, resources: Partial<Record<string, PIXI.LoaderResource>>) => {
+    new GenghisHawk(PixiApp, resources);
+    new MouthGuy(PixiApp, resources);
+  });
 
   document.body.appendChild(PixiApp.view);
 }
