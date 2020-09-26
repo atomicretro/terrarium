@@ -7,7 +7,10 @@ export default class MouthGuy extends Creature {
     app: PIXI.Application,
     resources: Partial<Record<string, PIXI.LoaderResource>>,
   ) {
-    super(app, resources, 'mouth_guy');
+    const startingPosition = { x: 100, y: 100 };
+    super(app, resources, 'mouth_guy', startingPosition);
     this.resources = resources;
+
+    this.move();
   }
 }
