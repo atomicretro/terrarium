@@ -1,1 +1,0 @@
-genghis_hawk_01.png.png 6 4, genghis_hawk_02.png.png 37 3, genghis_hawk_03.png.png 68 2, genghis_hawk_04.png.png 99 2, genghis_hawk_05.png.png 132 3, genghis_hawk_06.png.png 168 6, genghis_hawk_07.png.png 198 7, genghis_hawk_08.png.png 229 5.
