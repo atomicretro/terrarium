@@ -2,16 +2,21 @@ import * as PIXI from 'pixi.js';
 import gsap from 'gsap';
 
 export default class Creature {
-  private app: PIXI.Application;
+  public app: PIXI.Application;
+  private creatureName: string;
   private creature: PIXI.AnimatedSprite;
 
-  constructor(app: PIXI.Application, spritesheetName: any) {
+  constructor(app: PIXI.Application, creatureName: string) {
     this.app = app;
-    PIXI.Loader.shared.add('creature', spritesheetName).load(this.setup.bind(this))
+    this.creatureName = creatureName;
+
+    PIXI.Loader.shared
+      .add(creatureName, `../assets/creatures/${creatureName}/${creatureName}.json`)
+      .load(this.setup.bind(this));
   }
 
   setup() {
-    let sheet = PIXI.Loader.shared.resources.creature.spritesheet;
+    const sheet = PIXI.Loader.shared.resources[this.creatureName].spritesheet;
 
     this.creature = new PIXI.AnimatedSprite(sheet.animations.creature)
 
@@ -31,7 +36,7 @@ export default class Creature {
       duration: 1,
       repeat: -1,
       onRepeat: () => {
-        console.log("yo")
+        console.log('yo')
         // wasn't able to update position yet after on repeat.
         this.creature.position.set(this.creature.position.x, this.creature.position.y)
       }

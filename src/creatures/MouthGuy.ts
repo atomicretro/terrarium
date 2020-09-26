@@ -1,5 +1,5 @@
 import Creature from './Base';
-import SpriteSheet from '../assets/creatures/mouth_guy.png';
+import SpriteSheet from '../assets/creatures/sprites/mouth_guy.png';
 
 class MouthGuy extends Creature {
   name: string;
