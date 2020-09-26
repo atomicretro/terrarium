@@ -1,14 +1,13 @@
-import Creature from './Base';
-import SpriteSheet from '../assets/creatures/sprites/mouth_guy.png';
+import * as PIXI from 'pixi.js';
 
-class MouthGuy extends Creature {
-  name: string;
-  spriteSheet: any;
+import Creature from './Creature';
 
-  public constructor(greeting: string) {
-    super(greeting);
-    this.name = 'Mouth Guy';
+export default class MouthGuy extends Creature {
+  constructor(
+    app: PIXI.Application,
+    resources: Partial<Record<string, PIXI.LoaderResource>>,
+  ) {
+    super(app, resources, 'mouth_guy');
+    this.resources = resources;
   }
 }
-
-export default MouthGuy;

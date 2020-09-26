@@ -3,8 +3,11 @@ import * as PIXI from 'pixi.js';
 import Creature from './Creature';
 
 export default class GenghisHawk extends Creature {
-  constructor(app: PIXI.Application) {
-    super(app, 'genghis_hawk');
-    this.app = app;
+  constructor(
+    app: PIXI.Application,
+    resources: Partial<Record<string, PIXI.LoaderResource>>,
+  ) {
+    super(app, resources, 'genghis_hawk');
+    this.resources = resources;
   }
 }
