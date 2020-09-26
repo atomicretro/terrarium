@@ -10,7 +10,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpg|gif|ico)$/,
         use: [
           'file-loader',
         ],
@@ -29,13 +29,14 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Production',
-      template: 'index.html'
+      template: 'index.html',
+      favicon: './src/assets/favicon.ico'
     }),
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/assets', to: 'assets' }
       ]
-    })
+    }),
   ],
   output: {
     filename: 'bundle.js',
