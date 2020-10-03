@@ -84,6 +84,5 @@ export default class Creature {
       },
       duration: 0.5, // actual movement speed seems to be speed / duration (5 / 0.5 = 10)
     });
-    console.log('this.creature.position', this.creature.position)
   }
 }

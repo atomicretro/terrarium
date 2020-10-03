@@ -12,7 +12,6 @@ export default class MouthGuy extends Creature {
     super(app, resources, 'mouth_guy', startingPosition, speed);
     this.resources = resources;
 
-    // this.move(this.speed);
     app.ticker.add(() => { this.move(2); });
   }
 }
