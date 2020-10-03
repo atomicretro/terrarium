@@ -13,6 +13,6 @@ export default class MouthGuy extends Creature {
     this.resources = resources;
 
     // this.move(this.speed);
-    app.ticker.add(() => { this.move(0.8); });
+    app.ticker.add(() => { this.move(2); });
   }
 }

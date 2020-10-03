@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import gsap from 'gsap';
 import PixiPlugin from 'gsap/PixiPlugin';
 
-import { getRandomInt } from '../utils/mathFunctions';
+import { getRandomInt, getRandomIntWithNegative } from '../utils/mathFunctions';
 
 PixiPlugin.registerPIXI(PIXI);
 gsap.registerPlugin(PixiPlugin);
@@ -52,9 +52,6 @@ export default class Creature {
   }
 
   move(speed:number) {
-    console.log('this.creature.position', this.creature.position)
-    console.log('this.velocity', this.velocity)
-    console.log('---')
     const changeThreshold = 0.9;
     if (Math.random() > changeThreshold) {
       const compass = getRandomInt(4);
@@ -79,10 +76,14 @@ export default class Creature {
         break;
       }
     }
-console.log('this.creature.position', this.creature.position)
-console.log('this.velocity', this.velocity)
-    // this.move(speed);
-    this.creature.position.x += this.velocity.x;
-    this.creature.position.y += this.velocity.y;
+
+    gsap.to(this.creature, {
+      pixi: {
+        x: this.creature.position.x + this.velocity.x,
+        y: this.creature.position.y + this.velocity.y,
+      },
+      duration: 0.5, // actual movement speed seems to be speed / duration (5 / 0.5 = 10)
+    });
+    console.log('this.creature.position', this.creature.position)
   }
 }

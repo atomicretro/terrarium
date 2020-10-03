@@ -11,7 +11,7 @@ export default class GenghisHawk extends Creature {
     const speed = 3;
     super(app, resources, 'genghis_hawk', startingPosition, speed);
     this.resources = resources;
-app.ticker.add(() => { this.move(1); });
+app.ticker.add(() => { this.move(5); });
     // this.move(this.speed);
   }
 }
