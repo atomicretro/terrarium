@@ -8,9 +8,10 @@ export default class GenghisHawk extends Creature {
     resources: Partial<Record<string, PIXI.LoaderResource>>,
   ) {
     const startingPosition = { x: 500, y: 100 };
-    super(app, resources, 'genghis_hawk', startingPosition);
+    const speed = 3;
+    super(app, resources, 'genghis_hawk', startingPosition, speed);
     this.resources = resources;
-
-    this.move();
+app.ticker.add(() => { this.move(1); });
+    // this.move(this.speed);
   }
 }
