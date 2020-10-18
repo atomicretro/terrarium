@@ -2,6 +2,8 @@ import * as PIXI from 'pixi.js';
 import gsap from 'gsap';
 import PixiPlugin from 'gsap/PixiPlugin';
 
+import { getRandomInt } from '../utils/mathFunctions';
+
 PixiPlugin.registerPIXI(PIXI);
 gsap.registerPlugin(PixiPlugin);
 // https://greensock.com/docs/v2/Plugins/PixiPlugin
@@ -10,6 +12,10 @@ export default class Creature {
   public app: PIXI.Application;
   public resources: Partial<Record<string, PIXI.LoaderResource>>;
   public position: { x: number, y: number };
+  public velocity: { x: number, y: number };
+  // public timeline: AnimationTimeline;
+  public timeline: any;
+  public speed: number;
 
   protected creatureName: string;
   protected creature: PIXI.AnimatedSprite;
@@ -19,11 +25,15 @@ export default class Creature {
     resources: Partial<Record<string, PIXI.LoaderResource>>,
     creatureName: string,
     startingPosition: { x: number, y: number },
+    speed: number,
   ) {
     this.app = app;
     this.resources = resources;
     this.creatureName = creatureName;
     this.position = startingPosition;
+    this.timeline = gsap.timeline({ repeat: -1 });
+    this.speed = speed;
+    this.velocity = { x: 1, y: 1 };
 
     this.setup();
   }
@@ -41,25 +51,38 @@ export default class Creature {
     this.app.stage.addChild(this.creature);
   }
 
-  move() {
+  move(speed:number) {
+    const changeThreshold = 0.9;
+    if (Math.random() > changeThreshold) {
+      const compass = getRandomInt(4);
+      switch (compass) {
+        case 0:
+          this.velocity.x = speed;
+          this.velocity.y = speed;
+          break;
+        case 1:
+          this.velocity.x = -speed;
+          this.velocity.y = -speed;
+          break;
+        case 2:
+          this.velocity.x = speed;
+          this.velocity.y = -speed;
+          break;
+        case 3:
+          this.velocity.x = -speed;
+          this.velocity.y = speed;
+          break;
+        default:
+        break;
+      }
+    }
+
     gsap.to(this.creature, {
       pixi: {
-        x: this.creature.position.x + 100,
-        y: this.creature.position.y + 100,
+        x: this.creature.position.x + this.velocity.x,
+        y: this.creature.position.y + this.velocity.y,
       },
-      duration: 3,
-      repeat: -1,
-      onRepeat: () => {
-        if (this.creatureName === 'mouth_guy') {
-          console.log(this.creatureName, this.creature.position)
-          console.log('---')
-        }
-        // wasn't able to update position yet after on repeat.
-        // ALEC: i think we might have to use gsap timelines for this
-        // create maybe a master timeline that different movements / animations get slotted into?
-        // not sure, need to keep researching
-        this.creature.position.set(this.creature.position.x, this.creature.position.y);
-      },
+      duration: 0.5, // actual movement speed seems to be speed / duration (5 / 0.5 = 10)
     });
   }
 }

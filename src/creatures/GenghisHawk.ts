@@ -8,14 +8,15 @@ gsap.registerPlugin(PixiPlugin);
 import Creature from './Creature';
 
 export default class GenghisHawk extends Creature {
-  private timeline: GSAPTimeline;
+  public timeline: GSAPTimeline;
 
   constructor(
     app: PIXI.Application,
     resources: Partial<Record<string, PIXI.LoaderResource>>,
   ) {
-    const startingPosition = { x: 500, y: 800 };
-    super(app, resources, 'genghis_hawk', startingPosition);
+    const startingPosition = { x: 500, y: 100 };
+    const speed = 3;
+    super(app, resources, 'genghis_hawk', startingPosition, speed);
     this.resources = resources;
     this.timeline = gsap.timeline({repeat: -1})
 
