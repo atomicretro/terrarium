@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import gsap from 'gsap';
 import PixiPlugin from 'gsap/PixiPlugin';
 
-import { getRandomInt, getRandomIntWithNegative } from '../utils/mathFunctions';
+import { getRandomInt } from '../utils/mathFunctions';
 
 PixiPlugin.registerPIXI(PIXI);
 gsap.registerPlugin(PixiPlugin);
