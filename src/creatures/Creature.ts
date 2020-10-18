@@ -11,8 +11,8 @@ export default class Creature {
   public resources: Partial<Record<string, PIXI.LoaderResource>>;
   public position: { x: number, y: number };
 
-  private creatureName: string;
-  private creature: PIXI.AnimatedSprite;
+  protected creatureName: string;
+  protected creature: PIXI.AnimatedSprite;
 
   constructor(
     app: PIXI.Application,
