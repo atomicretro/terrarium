@@ -3,6 +3,12 @@ import * as PIXI from 'pixi.js';
 import GenghisHawk from '../creatures/GenghisHawk';
 import MouthGuy from '../creatures/MouthGuy';
 
+const gameLoop = (x: any, y: any, z: any) => {
+  console.log('x', x)
+  console.log('y', y)
+  console.log('z', z)
+};
+
 const App = () => {
   const PixiApp = new PIXI.Application({
     width: window.innerWidth,
@@ -21,9 +27,16 @@ const App = () => {
   PIXI.Loader.shared.load((loader: PIXI.Loader, resources: Partial<Record<string, PIXI.LoaderResource>>) => {
     new GenghisHawk(PixiApp, resources);
     new MouthGuy(PixiApp, resources);
+
+    console.log('hi', PixiApp)
+    PixiApp.ticker.add((x, y, z) => gameLoop(x, y, z));
+    
+    setTimeout(() => {
+      PixiApp.ticker.stop()
+    }, 3000)
   });
 
   document.body.appendChild(PixiApp.view);
-}
+};
 
 export default App;
