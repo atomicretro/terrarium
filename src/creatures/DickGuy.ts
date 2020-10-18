@@ -7,7 +7,7 @@ export default class DickGuy extends Creature {
     app: PIXI.Application,
     resources: Partial<Record<string, PIXI.LoaderResource>>,
   ) {
-    const startingPosition = { x: 100, y: 100 };
+    const startingPosition = { x: 100, y: 150 };
     const speed = 2;
     super(app, resources, 'dick_guy', startingPosition, speed);
     this.resources = resources;
