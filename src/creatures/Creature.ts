@@ -11,14 +11,13 @@ gsap.registerPlugin(PixiPlugin);
 export default class Creature {
   public app: PIXI.Application;
   public resources: Partial<Record<string, PIXI.LoaderResource>>;
-  public position: { x: number, y: number };
   public velocity: { x: number, y: number };
   // public timeline: AnimationTimeline;
   public timeline: any;
   public speed: number;
 
   private creatureName: string;
-  private creature: PIXI.AnimatedSprite;
+  private sprite: PIXI.AnimatedSprite;
 
   constructor(
     app: PIXI.Application,
@@ -30,25 +29,24 @@ export default class Creature {
     this.app = app;
     this.resources = resources;
     this.creatureName = creatureName;
-    this.position = startingPosition;
     this.timeline = gsap.timeline({ repeat: -1 });
     this.speed = speed;
     this.velocity = { x: 1, y: 1 };
 
-    this.setup();
+    this.setup(startingPosition);
   }
 
-  setup() {
+  setup(startingPosition: { x: number, y: number }) {
     const sheet = this.resources[this.creatureName].spritesheet;
 
-    this.creature = new PIXI.AnimatedSprite(sheet.animations.creature);
+    this.sprite = new PIXI.AnimatedSprite(sheet.animations.creature);
 
-    this.creature.animationSpeed = 8 / 60; // 6 fps
-    this.creature.anchor.set(0.5);
-    this.creature.position.set(this.position.x, this.position.y);
-    this.creature.play();
+    this.sprite.animationSpeed = 8 / 60; // 6 fps
+    this.sprite.anchor.set(0.5);
+    this.sprite.position.set(startingPosition.x, startingPosition.y);
+    this.sprite.play();
 
-    this.app.stage.addChild(this.creature);
+    this.app.stage.addChild(this.sprite);
   }
 
   move(speed:number) {
@@ -73,14 +71,14 @@ export default class Creature {
           this.velocity.y = speed;
           break;
         default:
-        break;
+          break;
       }
     }
 
-    gsap.to(this.creature, {
+    gsap.to(this.sprite, {
       pixi: {
-        x: this.creature.position.x + this.velocity.x,
-        y: this.creature.position.y + this.velocity.y,
+        x: this.sprite.x + this.velocity.x,
+        y: this.sprite.y + this.velocity.y,
       },
       duration: 0.5, // actual movement speed seems to be speed / duration (5 / 0.5 = 10)
     });
