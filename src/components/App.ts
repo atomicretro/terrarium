@@ -7,8 +7,8 @@ import MouthGuy from '../creatures/MouthGuy';
 import SpermMan from '../creatures/SpermMan';
 
 const PixiApp = new PIXI.Application({
-  width: window.innerWidth,
-  height: window.innerHeight,
+  width: 1000,
+  height: 500,
   backgroundColor: 0x986ef,
 });
 
@@ -66,8 +66,9 @@ const gameSetup = (loader: PIXI.Loader, resources: Partial<Record<string, PIXI.L
 const gameLoop = (delta: number, creatures:any[]) => {
   // console.log('delta', delta)
   // console.log('position', `${creatures[0].position.x}, ${creatures[0].position.y}`)
-  console.log('sprite', `${creatures[0].sprite.x}, ${creatures[0].sprite.y}`)
-  console.log('toGlobal', PixiApp.stage.toGlobal(creatures[0].sprite.position))
+  // console.log('sprite', `${creatures[0].sprite.x}, ${creatures[0].sprite.y}`)
+  // console.log('toGlobal', PixiApp.stage.toGlobal(creatures[0].sprite.position))
+  console.log('PixiApp', PixiApp.renderer)
   console.log('---')
 };
 
