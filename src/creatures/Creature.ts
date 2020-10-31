@@ -26,8 +26,8 @@ export default class Creature {
     startingPosition: { x: number, y: number },
     speed: number,
   ) {
-    this.app = app;
-    this.resources = resources;
+    this.app = app;               // I (alec) think we can remove these from the Creature class
+    this.resources = resources;   // I (alec) think we can remove these from the Creature class
     this.creatureName = creatureName;
     this.timeline = gsap.timeline({ repeat: -1 });
     this.speed = speed;

@@ -6,6 +6,8 @@ import HissGuy from '../creatures/HissGuy';
 import MouthGuy from '../creatures/MouthGuy';
 import SpermMan from '../creatures/SpermMan';
 
+import Quadtree from '../lib/quadtree';
+
 const PixiApp = new PIXI.Application({
   width: 1000,
   height: 500,
@@ -38,19 +40,10 @@ const gameSetup = (loader: PIXI.Loader, resources: Partial<Record<string, PIXI.L
     new MouthGuy(PixiApp, resources),
     new SpermMan(PixiApp, resources),
   ];
-  
-  // const dickGuy =  new DickGuy(PixiApp, resources);
-  // const genghisHawk =  new GenghisHawk(PixiApp, resources);
-  // const hissGuy =  new HissGuy(PixiApp, resources);
-  // const mouthGuy =  new MouthGuy(PixiApp, resources);
-  // const spermMan =  new SpermMan(PixiApp, resources);
 
-  // const creatures = new PIXI.Container();
-  // creatures.addChild(dickGuy);
-  // creatures.addChild(genghisHawk);
-  // creatures.addChild(hissGuy);
-  // creatures.addChild(mouthGuy);
-  // creatures.addChild(spermMan);
+  const rec: PIXI.Rectangle = new PIXI.Rectangle(0, 0, 100, 100);
+  console.log('contains', rec.contains(50, 50))
+
 
   const ticker = PixiApp.ticker.add((delta) => gameLoop(delta, creatures));
   console.log('fps', ticker.FPS)
@@ -65,10 +58,11 @@ const gameSetup = (loader: PIXI.Loader, resources: Partial<Record<string, PIXI.L
 
 const gameLoop = (delta: number, creatures:any[]) => {
   // console.log('delta', delta)
+  console.log('creatures[0]', creatures[0])
   // console.log('position', `${creatures[0].position.x}, ${creatures[0].position.y}`)
-  // console.log('sprite', `${creatures[0].sprite.x}, ${creatures[0].sprite.y}`)
+  console.log('sprite', `${creatures[0].sprite.x}, ${creatures[0].sprite.y}`)
   // console.log('toGlobal', PixiApp.stage.toGlobal(creatures[0].sprite.position))
-  console.log('PixiApp', PixiApp.renderer)
+  console.log('PixiApp', PixiApp.renderer.screen.contains(50, 50))
   console.log('---')
 };
 

@@ -1,26 +1,20 @@
-interface boundaryType {
-  x: number;        // the horizontal potiion of top-left corner of the bounding rectangle
-  y: number;        // the vertical potiion of top-left corner of the bounding rectangle
-  width: number;    // the horizontal size of the bounding rectangle
-  height: number;   // the vertical size of the bounding rectangle
-}
+import * as PIXI from 'pixi.js';
 
 // https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
 
-class Quadtree {
+export default class Quadtree {
+  private MAX_LEVELS: number = 5;       // deepest level subnode
+  private MAX_OBJECTS: number = 10;     // max # of objects node can hold until split
  
-  private MAX_LEVELS: number = 5;     // deepest level subnode
-  private MAX_OBJECTS: number = 10;   // max # of objects node can hold until split
+  private rectangle: PIXI.Rectangle;    // the 2D, rectangular space node occupies
+  private level: number;                // current node level
+  private nodes: Quadtree[];            // child nodes
+  private objects: any[];               // objects bounded by node
  
-  private boundary: boundaryType;     // the 2D, rectangular space node occupies
-  private level: number;              // current node level
-  private nodes: Quadtree[];          // child nodes
-  private objects: any[];             // objects bounded by node
- 
-  constructor(pLevel: number, pBoundry: any) {
-    this.boundary = pBoundry;
-    this.level = pLevel;
-    this.nodes = new Array(4);
+  constructor(level: number, rect: any) {
+    this.rectangle = rect;
+    this.level = level;
+    this.nodes = [];
     this.objects = [];
   }
 
@@ -42,44 +36,39 @@ class Quadtree {
    * Splits the node into 4 subnodes.
    */
   split() {
-    // Destructure x and y from boundary for easy reference
-    const { x, y } = this.boundary;
+    const { x, y, width, height } = this.rectangle;
     // Calculate level of subnodes
     const nextLevel = this.level + 1;
     // Calculate dimensions of subnodes
-    const subWidth: number = this.boundary.width / 2;
-    const subHeight: number = this.boundary.height / 2;
+    const subWidth: number = width / 2;
+    const subHeight: number = height / 2;
     //Calculate new x and y positions
     const subX: number = x + subWidth;
     const subY: number = y + subHeight;
 
-    this.nodes[0] = new Quadtree(nextLevel, this.buildBoundary(subX, y, subWidth, subHeight));
-    this.nodes[1] = new Quadtree(nextLevel, this.buildBoundary(x, y, subWidth, subHeight));
-    this.nodes[2] = new Quadtree(nextLevel, this.buildBoundary(x, subY, subWidth, subHeight));
-    this.nodes[3] = new Quadtree(nextLevel, this.buildBoundary(subX, subY, subWidth, subHeight));
-  }
-
-  private buildBoundary(x: number, y: number, width: number, height: number): boundaryType {
-    return { x, y, width, height };
+    this.nodes[0] = new Quadtree(nextLevel, new PIXI.Rectangle(subX, y, subWidth, subHeight));
+    this.nodes[1] = new Quadtree(nextLevel, new PIXI.Rectangle(x, y, subWidth, subHeight));
+    this.nodes[2] = new Quadtree(nextLevel, new PIXI.Rectangle(x, subY, subWidth, subHeight));
+    this.nodes[3] = new Quadtree(nextLevel, new PIXI.Rectangle(subX, subY, subWidth, subHeight));
   }
 
   /*
    * Determine which node the object belongs to. -1 means object cannot completely
    * fit within a child node and is part of the parent node.
    */
-  private getIndex(pRect: boundaryType): number {
+  private getNodeIndex(object: PIXI.AnimatedSprite): number {
     let nodeIdx: number = -1;
-    const verticalMidpoint: number = this.boundary.x + (this.boundary.width / 2);
-    const horizontalMidpoint: number = this.boundary.y + (this.boundary.height / 2);
+    const verticalMidpoint: number = this.rectangle.x + (this.rectangle.width / 2);
+    const horizontalMidpoint: number = this.rectangle.y + (this.rectangle.height / 2);
 
     // Object can completely fit within the top quadrants
-    const topQuadrant: boolean = pRect.y < horizontalMidpoint && pRect.y + pRect.height < horizontalMidpoint;
+    const topQuadrant: boolean = object.y < horizontalMidpoint && object.y + object.height < horizontalMidpoint;
 
     // Object can completely fit within the bottom quadrants
-    const bottomQuadrant: boolean = pRect.y > horizontalMidpoint;
+    const bottomQuadrant: boolean = object.y > horizontalMidpoint;
 
     // Object can completely fit within the left quadrants
-    if (pRect.x < verticalMidpoint && pRect.x + pRect.width < verticalMidpoint) {
+    if (object.x < verticalMidpoint && object.x + object.width < verticalMidpoint) {
        if (topQuadrant) {
          nodeIdx = 1;
        } else if (bottomQuadrant) {
@@ -88,7 +77,7 @@ class Quadtree {
      }
 
      // Object can completely fit within the right quadrants
-     else if (pRect.x > verticalMidpoint) {
+     else if (object.x > verticalMidpoint) {
       if (topQuadrant) {
         nodeIdx = 0;
       } else if (bottomQuadrant) {
@@ -103,41 +92,49 @@ class Quadtree {
    * Insert the object into the quadtree. If the node exceeds the capacity,
    * it will split and add all objects to their corresponding nodes.
    */
-  public insert(pRect: boundaryType) {
-    if (this.nodes[0] !== null) {
-      const nodeIdx: number = this.getIndex(pRect);
+  public insertIntoNode(object: PIXI.AnimatedSprite) {
+    // If subnodes exist, call insert on corresponding subnode instead
+    if (this.nodes.length > 0) {
+      const nodeIdx: number = this.getNodeIndex(object);
       if (nodeIdx > -1) {
-        this.nodes[nodeIdx].insert(pRect);
+        this.nodes[nodeIdx].insertIntoNode(object);
         return;
       }
     }
 
-    this.objects.push(pRect);
+    // Otherwise insert object into this node
+    this.objects.push(object);
 
+    // Max objects reached for this level
     if (this.objects.length > this.MAX_OBJECTS && this.level < this.MAX_LEVELS) {
-       if (this.nodes[0] === null) { 
-          this.split(); 
-       }
+      // Split node into subnodes if we haven't already 
+      if (this.nodes.length === 0) {
+        this.split(); 
+      }
 
-       for (const object of this.objects) {
-         const nodeIdx: number = this.getIndex(object);
-         if (nodeIdx > -1) {
-            this.nodes[nodeIdx].insert(object);
-         }
-       }
+      // Insert objects into corresponding subnodes
+      for (const object of this.objects) {
+        const nodeIdx: number = this.getNodeIndex(object);
+        if (nodeIdx > -1) {
+          this.nodes[nodeIdx].insertIntoNode(object);
+        }
+      }
     }
   }
 
   /*
-   * Return all objects that could collide with the given object.
+   * Return all objects in same lead node of given object.
+   * Returned objects are collision candidates.
    */
-  public retrieve(returnObjects: any[], pRect: boundaryType): any[] {
-    const nodeIdx: number = this.getIndex(pRect);
+  public retrieveAllFromNode(object: PIXI.AnimatedSprite): any[] {
+    let returnObjects = this.objects;
+
+    const nodeIdx: number = this.getNodeIndex(object);
     if (nodeIdx > -1 && this.nodes[0] !== null) {
-      this.nodes[nodeIdx].retrieve(returnObjects, pRect);
+      this.nodes[nodeIdx].retrieveAllFromNode(object);
     }
 
-    returnObjects.concat(this.objects);
+    returnObjects = returnObjects.concat(this.objects);
     return returnObjects;
   }
 }
