@@ -4,12 +4,12 @@ import * as PIXI from 'pixi.js';
 
 export default class Quadtree {
   private MAX_LEVELS: number = 5;       // deepest level subnode
-  private MAX_OBJECTS: number = 10;     // max # of objects node can hold until split
+  private MAX_OBJECTS: number = 2;     // max # of objects node can hold until split
  
-  private rectangle: PIXI.Rectangle;    // the 2D, rectangular space node occupies
-  private level: number;                // current node level
-  private nodes: Quadtree[];            // child nodes
-  private objects: any[];               // objects bounded by node
+  public rectangle: any;    // the 2D, rectangular space node occupies
+  public level: number;                // current node level
+  public nodes: Quadtree[];            // child nodes
+  public objects: any[];               // objects bounded by node
  
   constructor(level: number, rect: any) {
     this.rectangle = rect;
@@ -67,17 +67,15 @@ export default class Quadtree {
     // Object can completely fit within the bottom quadrants
     const bottomQuadrant: boolean = object.y > horizontalMidpoint;
 
-    // Object can completely fit within the left quadrants
     if (object.x < verticalMidpoint && object.x + object.width < verticalMidpoint) {
+      // Object can completely fit within the left quadrants
        if (topQuadrant) {
          nodeIdx = 1;
        } else if (bottomQuadrant) {
          nodeIdx = 2;
        }
-     }
-
-     // Object can completely fit within the right quadrants
-     else if (object.x > verticalMidpoint) {
+     } else if (object.x > verticalMidpoint) {
+       // Object can completely fit within the right quadrants
       if (topQuadrant) {
         nodeIdx = 0;
       } else if (bottomQuadrant) {
@@ -92,12 +90,12 @@ export default class Quadtree {
    * Insert the object into the quadtree. If the node exceeds the capacity,
    * it will split and add all objects to their corresponding nodes.
    */
-  public insertIntoNode(object: PIXI.AnimatedSprite) {
+  public insert(object: PIXI.AnimatedSprite) {
     // If subnodes exist, call insert on corresponding subnode instead
-    if (this.nodes.length > 0) {
+    if (this.nodes[0]) {
       const nodeIdx: number = this.getNodeIndex(object);
       if (nodeIdx > -1) {
-        this.nodes[nodeIdx].insertIntoNode(object);
+        this.nodes[nodeIdx].insert(object);
         return;
       }
     }
@@ -108,7 +106,7 @@ export default class Quadtree {
     // Max objects reached for this level
     if (this.objects.length > this.MAX_OBJECTS && this.level < this.MAX_LEVELS) {
       // Split node into subnodes if we haven't already 
-      if (this.nodes.length === 0) {
+      if (!this.nodes[0]) {
         this.split(); 
       }
 
@@ -116,25 +114,28 @@ export default class Quadtree {
       for (const object of this.objects) {
         const nodeIdx: number = this.getNodeIndex(object);
         if (nodeIdx > -1) {
-          this.nodes[nodeIdx].insertIntoNode(object);
+          this.nodes[nodeIdx].insert(object);
         }
       }
     }
   }
 
   /*
-   * Return all objects in same lead node of given object.
+   * Return all objects in same node of given object.
    * Returned objects are collision candidates.
    */
-  public retrieveAllFromNode(object: PIXI.AnimatedSprite): any[] {
+  public retrieve(object: PIXI.AnimatedSprite): any[] {
     let returnObjects = this.objects;
 
-    const nodeIdx: number = this.getNodeIndex(object);
-    if (nodeIdx > -1 && this.nodes[0] !== null) {
-      this.nodes[nodeIdx].retrieveAllFromNode(object);
+    // Retrieve the objects from the corresponding subnode
+    if (this.nodes[0]) {
+      const nodeIdx: number = this.getNodeIndex(object);
+      if (nodeIdx > -1) {
+        const subObjects = this.nodes[nodeIdx].retrieve(object);
+        returnObjects = returnObjects.concat(subObjects);
+      }
     }
 
-    returnObjects = returnObjects.concat(this.objects);
     return returnObjects;
   }
 }

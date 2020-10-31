@@ -33,6 +33,7 @@ const onProgress = (loader: PIXI.Loader, resource: Partial<Record<string, PIXI.L
 };
 
 const gameSetup = (loader: PIXI.Loader, resources: Partial<Record<string, PIXI.LoaderResource>>) => {
+  const quadtree = new Quadtree(0, PixiApp.renderer.screen);
   const creatures = [
     new DickGuy(PixiApp, resources),
     new GenghisHawk(PixiApp, resources),
@@ -41,29 +42,36 @@ const gameSetup = (loader: PIXI.Loader, resources: Partial<Record<string, PIXI.L
     new SpermMan(PixiApp, resources),
   ];
 
-  const rec: PIXI.Rectangle = new PIXI.Rectangle(0, 0, 100, 100);
-  console.log('contains', rec.contains(50, 50))
+  const ticker = PixiApp.ticker.add((delta) => gameLoop(delta, quadtree, creatures));
 
+  // console.log('quadtree', quadtree.rectangle)
 
-  const ticker = PixiApp.ticker.add((delta) => gameLoop(delta, creatures));
-  console.log('fps', ticker.FPS)
-  console.log('count', ticker.count)
-  console.log('deltaMS', ticker.deltaMS)
-  console.log('deltaTime', ticker.deltaTime)
+  // console.log('fps', ticker.FPS)
+  // console.log('count', ticker.count)
+  // console.log('deltaMS', ticker.deltaMS)
+  // console.log('deltaTime', ticker.deltaTime)
 
   // setTimeout(() => {
   //   PixiApp.ticker.stop()
   // }, 3000)
 };
 
-const gameLoop = (delta: number, creatures:any[]) => {
-  // console.log('delta', delta)
-  console.log('creatures[0]', creatures[0])
-  // console.log('position', `${creatures[0].position.x}, ${creatures[0].position.y}`)
-  console.log('sprite', `${creatures[0].sprite.x}, ${creatures[0].sprite.y}`)
-  // console.log('toGlobal', PixiApp.stage.toGlobal(creatures[0].sprite.position))
-  console.log('PixiApp', PixiApp.renderer.screen.contains(50, 50))
+const gameLoop = (delta: number, quadtree:any, creatures:any[]) => {
+  quadtree.clear();
+
+  for (const creature of creatures) {
+    quadtree.insert(creature.sprite)
+  }
+  
+  const candidates = quadtree.retrieve(creatures[3]);
+  console.log('candidates', candidates)
   console.log('---')
+  // console.log('delta', delta)
+  // console.log('creatures[0]', creatures[0])
+  // // console.log('position', `${creatures[0].position.x}, ${creatures[0].position.y}`)
+  // // console.log('toGlobal', PixiApp.stage.toGlobal(creatures[0].sprite.position))
+  // console.log('PixiApp', PixiApp.renderer.screen.contains(50, 50))
+  // console.log('---')
 };
 
 const App = () => {
